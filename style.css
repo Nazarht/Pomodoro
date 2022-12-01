@@ -26,6 +26,16 @@ html {
     background-color: var(--color-background);
 }
 
+@media screen and (max-width: 500px) {
+    html {
+        font-size: 15px;
+    }
+
+    .card .selector {
+        width: 70%;
+    }
+}
+
 header {
     background-color: var(--color-background);
     height: 8vh;

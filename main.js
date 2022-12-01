@@ -7,8 +7,8 @@ const secoundsDom = document.getElementsByClassName('secounds')[0];
 const play = document.querySelector('.play');
 const restart = document.querySelector('.restart');
 
-let workTime = 2;
-let breakTime = 1;
+let workTime = 25;
+let breakTime = 5;
 
 let secounds = '00'
 

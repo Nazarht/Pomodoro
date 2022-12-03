@@ -134,7 +134,7 @@ function start() {
 
     restart.onclick = restartFn;
 
-    myInterval = setInterval(startTimer, 50);
+    myInterval = setInterval(startTimer, 1000);
 } 
 
 play.onclick = start;

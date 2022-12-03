@@ -5,10 +5,11 @@ const minutesDom = document.getElementsByClassName('minutes')[0];
 const secoundsDom = document.getElementsByClassName('secounds')[0];
 
 const play = document.querySelector('.play');
+const pause = document.querySelector('.pause');
 const restart = document.querySelector('.restart');
 
-let workTime = 25;
-let breakTime = 5;
+let workTime = 3;
+let breakTime = 2;
 
 let secounds = '00'
 
@@ -20,25 +21,77 @@ window.onload = () => {
     workLabel.classList.add('active');
 }
 
-function start() {
+//pause params
+let secoundsPause;
+let workPause;
+let breakPause;
+let pauseBool = false;
 
+// work params
+let workMinutes;
+let breakMinutes;
+let breakCounter = 0;
+
+// interval
+let myInterval;
+
+
+function forceBreak() {
+    clearInterval(myInterval)
+    minutesDom.innerHTML = breakTime;
+    secoundsDom.innerHTML = '00';
+    breakLabel.classList.add('active');
+    workLabel.classList.remove('active');
+    pauseBool = true;
+    play.style.display = 'inline';
+    pause.style.display = 'none';
+    breakCounter = 1;
+    workPause = breakTime - 1;
+    secoundsPause = 59;
+}
+
+breakLabel.onclick = forceBreak
+
+function restartFn() {
+    clearInterval(myInterval);
+    minutesDom.innerHTML = workTime;
+    secoundsDom.innerHTML = '00';
+    workLabel.classList.add('active');
+    breakLabel.classList.remove('active');
+    pauseBool = false;
+    play.style.display = 'inline';
+    pause.style.display = 'none';
+    breakCounter = 0;
+}
+
+workLabel.onclick = restartFn;
+
+
+function start() {
     // change buttons
     play.style.display = 'none';
-    restart.style.display = 'inline';
+    pause.style.display = 'inline';
 
-    function stop() {
-        location.reload();
+    if (pauseBool === false) {
+    secounds = 59;
+    workMinutes = workTime - 1;
+    breakMinutes = breakTime - 1;
+    } else {
+         workMinutes = workPause;
+         secounds = secoundsPause;
     }
 
-    restart.onclick = stop;
-    
+    function stop() {
+        play.style.display = 'inline';
+        pause.style.display = 'none';
+        pauseBool = true
 
-    secounds = 59;
+        workPause = minutesDom.innerHTML;
+        secoundsPause = secoundsDom.innerHTML;
+        clearInterval(myInterval);
+    }
 
-    let workMinutes = workTime - 1;
-    let breakMinutes = breakTime - 1;
-
-    let breakCounter = 0;
+    pause.onclick = stop;
 
     function startTimer() {
         // set visual
@@ -61,6 +114,8 @@ function start() {
             workLabel.classList.remove('active');
             breakLabel.classList.add('active');
 
+
+            pauseBool = false;
             workMinutes = breakMinutes;
             breakCounter += 1;
             } else {
@@ -68,17 +123,19 @@ function start() {
                 breakLabel.classList.remove('active');
                 workLabel.classList.add('active');
 
-                workMinutes = workTime;
+                pauseBool = false;
+                workMinutes = workTime - 1;
                 breakCounter += 1;
+                
             }
         }
     }
 
-    setInterval(startTimer, 1000);
-}
+    // stop function
 
-function stop() {
-    play.removeEventListener(start);
-}
+    restart.onclick = restartFn;
+
+    myInterval = setInterval(startTimer, 50);
+} 
 
 play.onclick = start;

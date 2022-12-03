@@ -8,9 +8,8 @@ const play = document.querySelector('.play');
 const pause = document.querySelector('.pause');
 const restart = document.querySelector('.restart');
 
-let workTime = 3;
-let breakTime = 2;
-
+let workTime = 25;
+let breakTime = 5;
 let secounds = '00'
 
 // display time 
